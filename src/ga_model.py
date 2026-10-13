@@ -69,6 +69,24 @@ WAGE_MODE = "earner"      # "earner": 有業者1人当たり×雇用者率 / "ho
 SLIDE_RATE = 0.009        # マクロ経済スライドの年率
 SLIDE_UNTIL = 2043        # スライド終了年度
 ELIG_ON = True            # 支給開始年齢引上げを織り込むか
+CARE_MODE = "ss_other"    # "age": 介護給付費実態調査の年齢別受給者×要介護度別費用 / "ss_other": 論文表1どおり（社会保障給付−公的年金給付）
+# 要介護度別 受給者1人当たり月額費用（千円）の仮定。予防平均39.4・介護平均186.9（H23.4審査）に整合するよう設定
+CARE_COST = {"要支援1": 25, "要支援2": 50, "要介護1": 110, "要介護2": 145, "要介護3": 205, "要介護4": 245, "要介護5": 285}
+
+def care_profile():
+    """年齢別の一人当たり介護費用（相対値）＝ Σ要介護度 受給者数×費用 ÷ 2010国勢調査人口"""
+    k = pd.read_csv(RAW + "kaigo2010_recipients.csv")
+    c = pd.read_csv(RAW + "census2010.csv")
+    c = c[c.cat02_name.str.match(r"^[０-９0-9]+歳$|^１００歳以上$")]
+    z2h = str.maketrans("０１２３４５６７８９", "0123456789")
+    pop = c.assign(age=c.cat02_name.str.translate(z2h).str.extract(r"(\d+)")[0].astype(int)).groupby("age")["value"].sum()
+    out = np.zeros(D + 1)
+    for _, r in k.iterrows():
+        lo = int(re.match(r"(\d+)", r["年齢階級"]).group(1))
+        hi = 64 if lo == 40 else (lo + 4 if lo < 95 else 120)
+        cost = sum(r[l] * 1000 * CARE_COST[l] for l in CARE_COST)
+        out[lo:min(hi, D) + 1] = cost / pop.loc[lo:hi].sum()
+    return out
 
 def load_profiles(mode="head"):
     """mode="head": 世帯の値を世帯主年齢＝本人年齢として20歳以上に帰属（子どもは0）
@@ -140,6 +158,7 @@ def load_profiles(mode="head"):
     if WAGE_MODE == "household":
         wage = per_adult("310101", "wage")
 
+    care = care_profile()
     pension = per_adult("310103021")
     ss_other = np.maximum(per_adult("31010302") - pension, 0)
     rent = col(tab("01-2019", "21010201")["全世帯"]) / div * adult
@@ -147,7 +166,7 @@ def load_profiles(mode="head"):
         wage=wage, prop_inc=per_adult("31010301"), gift=per_adult("310201"),
         pension=pension, ss_other=ss_other, cons=cons,
         rent_debt=rent + debt * 0.03 / 12, housing=housing, saving=saving,
-        med=med, edu=edu, equal=np.ones(D + 1))
+        med=med, edu=edu, care=care, equal=np.ones(D + 1))
 
 # ------------------------------------------------------------------
 # 3. SNA（平成22年度確報, 10億円）→ 項目別総額と配分基準（表1）
@@ -172,7 +191,7 @@ ITEMS = [  # (名称, 総額, 配分基準, 符号)
     ("社会給付：その他",     67218.7 - 48888.5 - 2610.9, "ss_other",  -1),
     ("その他経常移転支払",   65145.5 - 57494.9,          "cons",      -1),
     ("現物：医療",           37142.1 - 7251.2,           "med",       -1),
-    ("現物：介護等",         7251.2,                     "ss_other",  -1),
+    ("現物：介護等",         7251.2,                     "care",      -1),
     ("資本税（相続贈与）",   1250.4,                     "gift",      +1),
 ]
 # 非移転支出（G）：集合消費＋個別的非市場財＋公的純投資（固定資本形成−固定資本減耗＋在庫＋土地）＋その他資本移転（純）
@@ -188,6 +207,8 @@ def per_capita_profiles(P2010, prof):
     """各項目を (3) 式で各歳へ配分 → 一人当たり（円）"""
     out = {}
     for name, total, base, sign in ITEMS:
+        if base == "care" and CARE_MODE == "ss_other":
+            base = "ss_other"
         a = prof[base]
         out[name] = sign * total * 1e9 * a / (a * P2010).sum()   # h_ij = H_i α_ij / Σ α P
     return pd.DataFrame(out, index=AGES)
