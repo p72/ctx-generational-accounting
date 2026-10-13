@@ -12,6 +12,11 @@ PYTHONPATH=. python3 variants.py      # 前提を変えた感応度 → ../out_v
 python3 chart.py                      # 比較グラフ → ../ga_replication.png
 ```
 
+取得済みデータは `raw/` に同梱しているので、再計算だけならネット接続は不要。
+（`src/es.py` はデータ再取得用の e-Stat API ヘルパーの読み込み口で、実行環境依存。再計算には使わない）
+
+依存：`pip install -r requirements.txt`
+
 ## データ（raw/）
 
 | ファイル | 内容 | 出典 |
