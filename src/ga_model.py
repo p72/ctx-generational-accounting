@@ -64,6 +64,11 @@ DETAIL_CLASS = [("30歳未満", 0, 29), ("30～34", 30, 34), ("35～39", 35, 39)
                 ("65～69", 65, 69), ("70～74", 70, 74), ("75～79", 75, 79), ("80～84", 80, 84),
                 ("85歳以上", 85, 120)]
 OTHER_WAGE_SHARE = 0.3   # 「その他の世帯」(自営業等)の勤め先収入＝勤労者世帯の3割と仮定
+# 感応度用のスイッチ
+WAGE_MODE = "earner"      # "earner": 有業者1人当たり×雇用者率 / "household": 世帯の勤め先収入（世帯主年齢）
+SLIDE_RATE = 0.009        # マクロ経済スライドの年率
+SLIDE_UNTIL = 2043        # スライド終了年度
+ELIG_ON = True            # 支給開始年齢引上げを織り込むか
 
 def load_profiles(mode="head"):
     """mode="head": 世帯の値を世帯主年齢＝本人年齢として20歳以上に帰属（子どもは0）
@@ -132,6 +137,8 @@ def load_profiles(mode="head"):
         lo = int(mm.group(1) or mm.group(3)); hi = int(mm.group(2)) if mm.group(2) else D
         emp_rate[lo:min(hi, D) + 1] = r["（再掲）雇用者（役員を含む），総数"] / r["総数（労働力状態）"]
     wage = col(w_per_earner) * emp_rate
+    if WAGE_MODE == "household":
+        wage = per_adult("310101", "wage")
 
     pension = per_adult("310103021")
     ss_other = np.maximum(per_adult("31010302") - pension, 0)
@@ -205,14 +212,15 @@ def contrib_multiplier(year):
     rate = min(16.058 + 0.354 * (year - BASE), 18.3)
     return 1 + PENSION_SHARE_OF_CONTRIB * (rate / 16.058 - 1)
 
-def slide_multiplier(year, slide=0.009, until=2043):
+def slide_multiplier(year, slide=None, until=None):
+    slide = SLIDE_RATE if slide is None else slide; until = SLIDE_UNTIL if until is None else until
     """マクロ経済スライド：2015年度〜until年度、一人当たり年金の伸びを年slide分抑制"""
     k = min(max(year - 2014, 0), until - 2014)
     return (1 - slide) ** k
 
 def eligibility(age, year):
     """報酬比例部分の支給開始年齢引上げ（男子1953年度生〜、女子は5年遅れ）→ 60-64歳の受給割合"""
-    if age < 60 or age >= 65: return 1.0
+    if not ELIG_ON or age < 60 or age >= 65: return 1.0
     c = year - age
     def start(c):
         return 60 if c <= 1953 else min(65, 60 + (c - 1952) // 2)

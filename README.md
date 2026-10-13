@@ -9,6 +9,7 @@ cd src
 PYTHONPATH=. python3 ga_model.py      # 3ケースの世代会計（負担・受益・純負担）
 PYTHONPATH=. python3 compare.py head  # 論文表2との比較・延期効果 → ../out_*.csv
 PYTHONPATH=. python3 variants.py      # 前提を変えた感応度 → ../out_variants.csv
+PYTHONPATH=. python3 gap_sensitivity.py  # 40〜60歳のズレの感応度（賃金・年金改革）→ ../out_gap_sensitivity.csv
 python3 chart.py                      # 比較グラフ → ../ga_replication.png
 ```
 
