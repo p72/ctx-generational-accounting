@@ -1,0 +1,138 @@
+{
+ "note": "raw/ のデータの出典と SHA-256。--check で照合できる",
+ "files": [
+  {
+   "file": "22c3.xls",
+   "source": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/h22/tables/22c3_jp.xls",
+   "description": "同 制度部門別資本調達勘定 一般政府",
+   "bytes": 43008,
+   "sha256": "9b720a22a8c0e5e6cf55f2cf0b0f843c04f34d5f7103f4c60fe3e6128460f367"
+  },
+  {
+   "file": "22i4.xls",
+   "source": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/h22/tables/22i4_jp.xls",
+   "description": "平成22年度国民経済計算確報（2005年基準・93SNA）制度部門別所得支出勘定 一般政府",
+   "bytes": 122368,
+   "sha256": "cd03d3f54ba3e27dc2f82222c9a350e2fdc2b78c973199da923426b64bbc3f57"
+  },
+  {
+   "file": "22i5.xls",
+   "source": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/h22/tables/22i5_jp.xls",
+   "description": "同 家計（個人企業を含む）",
+   "bytes": 133632,
+   "sha256": "be227a36b27125fa43ab16aa5efbeeb710b392d4aa501c7116fdcab957d5029f"
+  },
+  {
+   "file": "22s10.xls",
+   "source": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/h22/tables/22s10_jp.xls",
+   "description": "同 付表10 社会保障負担の明細表",
+   "bytes": 33792,
+   "sha256": "4a597eb0e737775884aa1ff1b94be46dd263558adae6f8fcc537d6cb0af45758"
+  },
+  {
+   "file": "22s6.xls",
+   "source": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/h22/tables/22s6_jp.xls",
+   "description": "同 付表6 一般政府の部門別勘定（参照用）",
+   "bytes": 78848,
+   "sha256": "108890b952adba223bc7ac8bbfc110a5f84658e769f284fe9f07ee5a0a46cce7"
+  },
+  {
+   "file": "22s7.xls",
+   "source": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/h22/tables/22s7_jp.xls",
+   "description": "同 付表7 一般政府の機能別支出",
+   "bytes": 94720,
+   "sha256": "dc39649b8ebe6c6b83e390d4aaa34bf93a8485d9dec179b9ae593776bf809e10"
+  },
+  {
+   "file": "22s9.xls",
+   "source": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/h22/tables/22s9_jp.xls",
+   "description": "同 付表9 一般政府から家計への移転の明細表（社会保障関係）",
+   "bytes": 37376,
+   "sha256": "681a5f24b65646a5d40b2f5bdc2b6386934ec5956b4003f769ab3349dd427f1a"
+  },
+  {
+   "file": "census2010.csv",
+   "source": "e-Stat API getStatsData（src/es.py 経由）statsDataId=0003410439 cdTab=020 cdCat01=000 cdTime=2010000000",
+   "description": "平成22年国勢調査 年齢各歳別人口",
+   "bytes": 2896,
+   "sha256": "10e88ae973a450dda22fe98fe21f7ce504d7227f962782af0346b1130bb34d5f"
+  },
+  {
+   "file": "census2010_emp.csv",
+   "source": "e-Stat API getStatsData（src/es.py 経由）statsDataId=0003033025 cdCat01=000 cdCat03=000 cdCat04=000,002,007 cdArea=00000",
+   "description": "平成22年国勢調査 年齢5歳階級別 15歳以上人口・就業者・雇用者",
+   "bytes": 923,
+   "sha256": "08aedb2d2db145408161d1575c7400d58efca0871416a7904b2a8f2e1d474ed0"
+  },
+  {
+   "file": "ipss_1-9.xls",
+   "source": "https://www.ipss.go.jp/pp-zenkoku/j/zenkoku2017/db_zenkoku2017/s_tables/xls/1-9.xls",
+   "description": "社人研 平成29年推計 表1-9 男女年齢各歳別人口（出生中位・死亡中位）2015〜2065",
+   "bytes": 650752,
+   "sha256": "1c2e6f0541b7e19030e4a8f8bd8e0f63a7a5dbf5e913a3b19262d621a2a17766"
+  },
+  {
+   "file": "ipss_pop.csv",
+   "source": "src/parse_ipss.py により上記2ファイルから作成",
+   "description": "各歳人口（年×年齢）",
+   "bytes": 101513,
+   "sha256": "14908043447987154e5e7237e8caacf257f6ead1cf9ab8aa47e54a796be79a80"
+  },
+  {
+   "file": "ipss_s1-9.xls",
+   "source": "https://www.ipss.go.jp/pp-zenkoku/j/zenkoku2017/db_zenkoku2017/s_tables/s1-9.xls",
+   "description": "同 参考表1-9（2066〜2115）",
+   "bytes": 712192,
+   "sha256": "b10540e5f6590dc21cdf6e0f854952dcfe245f632247b73f8b3f3017e3b48406"
+  },
+  {
+   "file": "kaigo10_hyo.xls",
+   "source": "https://www.mhlw.go.jp/toukei/saikin/hw/kaigo/kyufu/10/xls/hyo.xls",
+   "description": "介護給付費実態調査 平成22年度 結果の概要の表",
+   "bytes": 205824,
+   "sha256": "b3b2dde13da4117e851cf8e4399738e9d10dd69c4bc83cd51704e2bcc83f906e"
+  },
+  {
+   "file": "kaigo10_toukei.xls",
+   "source": "https://www.mhlw.go.jp/toukei/saikin/hw/kaigo/kyufu/10/xls/toukei.xls",
+   "description": "介護給付費実態調査 平成22年度 統計表",
+   "bytes": 71168,
+   "sha256": "8d7eadb3a59272af356e9b6f014efdd36fb0068de15d252a55704aeea4df21e6"
+  },
+  {
+   "file": "kaigo2010_recipients.csv",
+   "source": "src/parse_kaigo.py により kaigo10_toukei.xls 統計表3-1 から作成",
+   "description": "年齢階級・要介護度別受給者数（平成22年11月審査分）",
+   "bytes": 460,
+   "sha256": "a19ea3634b87ab213d336ccbbb75366cad576607e8915a5ef5490a5094020b1d"
+  },
+  {
+   "file": "medexp2014.csv",
+   "source": "e-Stat API getStatsData（src/es.py 経由）statsDataId=0003356094 cdTab=180 cdCat01=100 cdCat02=100 cdTime=2014100000",
+   "description": "国民医療費 年齢階級別 人口一人当たり（2014年度）",
+   "bytes": 418,
+   "sha256": "0384d7160f7c1dc2a402b73d05ea23dd9d695269fd9ebee4081e60c672323eb2"
+  },
+  {
+   "file": "nsfie_detail.csv",
+   "source": "e-Stat API getStatsData（src/es.py 経由）statsDataId=0003424369 cdCat01=0 cdCat03=0（収支8項目＋世帯数・人員・有業人員）",
+   "description": "平成26年全国消費実態調査 世帯主年齢階級・世帯区分別 収支（総世帯）",
+   "bytes": 109851,
+   "sha256": "ef7141bc59973790a5b50cf505b040445a0bf2d1da576d18d6b3c768f3a7a143"
+  },
+  {
+   "file": "nsfie_flow.csv",
+   "source": "e-Stat API getStatsData（src/es.py 経由）statsDataId=0003126809 cdCat02=07001",
+   "description": "平成26年全国消費実態調査 フロー編第43表（現行モデルでは未使用）",
+   "bytes": 522810,
+   "sha256": "3382045c3835737d6066a9ad4f48d8b86a4a9583149c5ff9633498090ac7dea8"
+  },
+  {
+   "file": "nsfie_stock.csv",
+   "source": "e-Stat API getStatsData（src/es.py 経由）statsDataId=0003132154 cdCat03=07005 cdCat04=02",
+   "description": "平成26年全国消費実態調査 世帯主年齢階級別 資産（総世帯）",
+   "bytes": 5127,
+   "sha256": "8dbcbd33c7c5b7c99501fa4cbe2597dd8a5ba52dbac70fa3aad98c4cac29d1f5"
+  }
+ ]
+}
