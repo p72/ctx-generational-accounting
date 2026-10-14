@@ -3,9 +3,11 @@ P=m.load_population()
 base_items=copy.deepcopy(m.ITEMS); G0=m.G_COLLECTIVE
 def run(mode="head", edu="benefit", gmode="gross", reforms=True):
     m.ITEMS=copy.deepcopy(base_items); m.G_COLLECTIVE=G0
-    if edu!="benefit":
-        m.ITEMS=[it for it in m.ITEMS if it[0]!="現物：教育"]
-        if edu=="G": m.G_COLLECTIVE=G0+18025.5
+    # 既定（edu="G"）は教育をGに含める。"benefit": 受益として学校教育費で配分 / "none": どちらにも入れない
+    if edu=="benefit":
+        m.ITEMS=m.ITEMS+[("現物：教育", m.IND_EDU, "edu", -1)]; m.G_COLLECTIVE=G0-m.IND_EDU
+    elif edu=="none":
+        m.G_COLLECTIVE=G0-m.IND_EDU
     prof=m.load_profiles(mode); H=m.per_capita_profiles(P.loc[2010].values,prof)
     out={}
     for sc in ["base","delay","keep8"]:
